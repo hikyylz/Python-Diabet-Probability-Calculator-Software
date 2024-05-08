@@ -2,9 +2,6 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
-    QPushButton,
-    QHBoxLayout,
-    QWidget,
 )
 import sys
 
@@ -109,6 +106,9 @@ class MyWindow(QMainWindow):
         self.recieveData()
         self.answersStatus = self.checkAnswers(self.answers)
         print(self.answersStatus)
+        # eğer value lar sayısalsa ekranda değişiklikler yapılacak
+        # eğer değerler sayısal değilse tekrardan girsin değerleri.
+        
         
 
 

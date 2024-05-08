@@ -14,12 +14,19 @@ class MyWindow(QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
         self.answers = []
+        self.answersStatus = False
         self.lineGap = 50
         self.componentGap = 250
-
         self.setGeometry(200,200,700,700)
         self.setWindowTitle("Diabet Application")
-        self.initUI()
+        
+        if not self.answersStatus:
+            self.initUI()
+        else:
+            self.Label1 = QtWidgets.QLabel(self)
+            self.Label1.setText("answers atandi")
+            self.Label1.move(0,0)
+
 
     
 
@@ -98,9 +105,11 @@ class MyWindow(QMainWindow):
 
 
     def recieveDataButtonClicked(self):
+        self.answers = []
         self.recieveData()
-        self.checkAnswers()
-
+        self.answersStatus = self.checkAnswers(self.answers)
+        print(self.answersStatus)
+        
 
 
     def recieveData(self):
@@ -112,6 +121,7 @@ class MyWindow(QMainWindow):
         dataBMI = self.textField6.text()
         dataDiabetesPedigreeFunction = self.textField7.text()
         dataAge = self.textField8.text()
+        
 
         self.answers.append(dataPregnancies)
         self.answers.append(dataGlucose)
@@ -124,9 +134,29 @@ class MyWindow(QMainWindow):
 
     # answers sayısal değer değilse false return eder. 
     def checkAnswers(self, AnswersList):
+
+        # answers değerlerini sayısal ifadeye dönüştürülüyor mu diye çalışıyoruz ilk olarak.
+        try:
+            size=len(self.answers)
+            for i in range(size):
+                if self.answers[i].replace(".", "", 1).isdigit():
+                    if "." in self.answers[i]:  # Eğer öğe bir float sayı ise
+                        self.answers[i] = float(self.answers[i])
+                    else:  # Eğer öğe bir tam sayı ise
+                        self.answers[i] = int(self.answers[i])
+                else:
+                    return False
+
+        except Exception as e:
+            print("girilen değerler sayisal değilmiş.")
+            return False
+
+
+        #blank textfield check
         for value in AnswersList:
-            if type(value)!=int and type(value)!=float:
+            if value == "":
                 return False
+            
         return True
 
         

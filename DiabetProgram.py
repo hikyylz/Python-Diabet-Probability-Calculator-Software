@@ -18,5 +18,6 @@ class DiabetProgram():
         DiabetApp.exec()  ## bu satırdan sonra window u kapatmadığım sürece işlem yapamıyorum.
 
 
+
 myDiabetProgram = DiabetProgram()
 myDiabetProgram.diabetProgramStart()

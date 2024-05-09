@@ -1,7 +1,11 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (
-    QApplication,
     QMainWindow,
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QWidget
 )
 import sys
 
@@ -16,89 +20,128 @@ class MyWindow(QMainWindow):
         self.componentGap = 250
         self.setGeometry(200,200,700,700)
         self.setWindowTitle("Diabet Application")
+        self.initUI()
+
         
-        if not self.answersStatus:
-            self.initUI()
-        else:
-            self.Label1 = QtWidgets.QLabel(self)
-            self.Label1.setText("answers atandi")
-            self.Label1.move(0,0)
 
+    def UI2(self):
+        MainWidget = QWidget()
+        MainLayout = QVBoxLayout()  
+        self.a = QLabel(self)
+        self.a.setText("-kaan-") 
+        MainLayout.addWidget(self.a)
+        MainWidget.setLayout(MainLayout)
+        self.setCentralWidget(MainWidget)   
 
-    
 
 
     def initUI(self):
-        # pregnancie info retrieving..
-        self.definitionLabel1 = QtWidgets.QLabel(self)
-        self.definitionLabel1.setText ("-Pregnancies-")
-        self.definitionLabel1.move(0, 0)
+        MainWidget = QWidget()
+        MainLayout = QVBoxLayout()
 
-        self.textField1=QtWidgets.QLineEdit(self)
-        self.textField1.move(self.componentGap, 0)
+        # pregnancie info retrieving..
+        RowLayout1 = QHBoxLayout()
+        self.definitionLabel1 = QLabel(self)
+        self.definitionLabel1.setText("-Pregnancies-")
+        self.textField1=QLineEdit(self)
+
+        RowLayout1.addWidget(self.definitionLabel1, 1)
+        RowLayout1.addWidget(self.textField1, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # Glucose info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel2 = QtWidgets.QLabel(self)
         self.definitionLabel2.setText ("-Glucose-")
-        self.definitionLabel2.move(0, self.lineGap)
-
         self.textField2=QtWidgets.QLineEdit(self)
-        self.textField2.move(self.componentGap, self.lineGap)
+        
+        RowLayout1.addWidget(self.definitionLabel2, 1)
+        RowLayout1.addWidget(self.textField2, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # BloodPressure info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel3 = QtWidgets.QLabel(self)
         self.definitionLabel3.setText ("-BloodPressure-")
-        self.definitionLabel3.move(0, self.lineGap*2)
-
         self.textField3=QtWidgets.QLineEdit(self)
-        self.textField3.move(self.componentGap, self.lineGap*2)
+
+        RowLayout1.addWidget(self.definitionLabel3, 1)
+        RowLayout1.addWidget(self.textField3, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # SkinThickness info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel4 = QtWidgets.QLabel(self)
         self.definitionLabel4.setText ("-SkinThickness-")
-        self.definitionLabel4.move(0, self.lineGap*3)
-
         self.textField4=QtWidgets.QLineEdit(self)
-        self.textField4.move(self.componentGap, self.lineGap*3)
+
+        RowLayout1.addWidget(self.definitionLabel4, 1)
+        RowLayout1.addWidget(self.textField4, 2)
+        MainLayout.addLayout(RowLayout1)
+
+
 
         # Insulin info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel5 = QtWidgets.QLabel(self)
         self.definitionLabel5.setText ("-Insulin-")
-        self.definitionLabel5.move(0, self.lineGap*4)
-
         self.textField5=QtWidgets.QLineEdit(self)
-        self.textField5.move(self.componentGap, self.lineGap*4)
+
+        RowLayout1.addWidget(self.definitionLabel5, 1)
+        RowLayout1.addWidget(self.textField5, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # BMI info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel6 = QtWidgets.QLabel(self)
         self.definitionLabel6.setText ("-BMI-")
-        self.definitionLabel6.move(0, self.lineGap*5)
-
         self.textField6=QtWidgets.QLineEdit(self)
-        self.textField6.move(self.componentGap, self.lineGap*5)
+
+        RowLayout1.addWidget(self.definitionLabel6, 1)
+        RowLayout1.addWidget(self.textField6, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # DiabetesPedigreeFunction info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel7 = QtWidgets.QLabel(self)
         self.definitionLabel7.setText("-DiabetesPedigreeFunction-")
-        self.definitionLabel7.adjustSize()
-        self.definitionLabel7.move(0, self.lineGap*6)
-
         self.textField7=QtWidgets.QLineEdit(self)
-        self.textField7.move(self.componentGap, self.lineGap*6)
+
+        RowLayout1.addWidget(self.definitionLabel7, 1)
+        RowLayout1.addWidget(self.textField7, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # Age info retrieving..
+        RowLayout1 = QHBoxLayout()
         self.definitionLabel8 = QtWidgets.QLabel(self)
         self.definitionLabel8.setText ("-Age-")
-        self.definitionLabel8.move(0, self.lineGap*7)
-
         self.textField8=QtWidgets.QLineEdit(self)
-        self.textField8.move(self.componentGap, self.lineGap*7)
+
+        RowLayout1.addWidget(self.definitionLabel8, 1)
+        RowLayout1.addWidget(self.textField8, 2)
+        MainLayout.addLayout(RowLayout1)
+
 
         # recieve data button at buttom
+        RowLayout1 = QHBoxLayout()
         self.recieveDataButton = QtWidgets.QPushButton(self)
         self.recieveDataButton.setText("Submit  ")
-        self.recieveDataButton.move(0, self.lineGap*9)
         self.recieveDataButton.clicked.connect(self.recieveDataButtonClicked)
+
+        RowLayout1.addWidget(self.recieveDataButton, 1)
+        MainLayout.addLayout(RowLayout1)
+
+
+        MainWidget.setLayout(MainLayout)
+        self.setCentralWidget(MainWidget)
+
+
 
 
     def recieveDataButtonClicked(self):
@@ -106,8 +149,14 @@ class MyWindow(QMainWindow):
         self.recieveData()
         self.answersStatus = self.checkAnswers(self.answers)
         print(self.answersStatus)
+        if self.answersStatus:
+            self.UI2()
+        else:
+            self.initUI()
+
         # eğer value lar sayısalsa ekranda değişiklikler yapılacak
         # eğer değerler sayısal değilse tekrardan girsin değerleri.
+
         
         
 
@@ -122,7 +171,6 @@ class MyWindow(QMainWindow):
         dataDiabetesPedigreeFunction = self.textField7.text()
         dataAge = self.textField8.text()
         
-
         self.answers.append(dataPregnancies)
         self.answers.append(dataGlucose)
         self.answers.append(dataBloodPressure)
@@ -151,12 +199,14 @@ class MyWindow(QMainWindow):
             print("girilen değerler sayisal değilmiş.")
             return False
 
-
         #blank textfield check
         for value in AnswersList:
             if value == "":
                 return False
             
+
+
+
         return True
 
         

@@ -8,6 +8,8 @@ from PyQt5.QtWidgets import (
     QWidget
 )
 import sys
+# .py file import ettiğimde oradaki kodlar çalışıyormuş zaten!
+from CsvFileOperations import AdgeValues
 
 
 class MyWindow(QMainWindow):
@@ -20,7 +22,6 @@ class MyWindow(QMainWindow):
         self.componentGap = 250
         self.setGeometry(200,200,700,700)
         self.setWindowTitle("Diabet Application")
-        # .csv dosyası önce okunmalı user inputlarından önce.
         self.initUI()
 
         
@@ -159,7 +160,6 @@ class MyWindow(QMainWindow):
         self.answers = []
         self.recieveData()
         self.answersStatus = self.checkAnswers(self.answers)
-        print(self.answersStatus)
         if self.answersStatus:
             self.UI2()
         else:
@@ -189,18 +189,41 @@ class MyWindow(QMainWindow):
         self.answers.append(dataDiabetesPedigreeFunction)
         self.answers.append(dataAge)
 
-    # answers sayısal değer değilse false return eder. 
-    def checkAnswers(self, AnswersList):
 
+    def dicValuesSortFor(self, value, maxName, minName):
+        if value > AdgeValues[maxName]:
+            return False
+        
+        elif  value < AdgeValues[minName]:
+            return False
+
+    def dicValuesSort(self, row):
+
+        dicValuesSortFor(row[0], "MaxPregnancies", "MinPregnancies")
+        dicValuesSortFor(row[1], "MaxGlucose", "MinGlucose")
+        dicValuesSortFor(row[2], "MaxBloodPressure", "MinBloodPressure")
+        dicValuesSortFor(row[3], "MaxSkinThickness", "MinSkinThickness")
+        dicValuesSortFor(row[4], "MaxInsulin", "MinInsulin")
+        dicValuesSortFor(row[5], "MaxBMI", "MinBMI")
+        dicValuesSortFor(row[6], "MaxDiabetesPedigreeFunction", "MinDiabetesPedigreeFunction")
+        dicValuesSortFor(row[7], "MaxAge", "MinAge")
+
+
+    def check_values_in_range(self, AnswerList):
+        dicValuesSort(AnswerList)
+        
+        return True
+
+    def checkAnswers(self, AnswersList):
         # answers değerlerini sayısal ifadeye dönüştürülüyor mu diye çalışıyoruz ilk olarak.
         try:
-            size=len(self.answers)
+            size=len(AnswersList)
             for i in range(size):
-                if self.answers[i].replace(".", "", 1).isdigit():
-                    if "." in self.answers[i]:  # Eğer öğe bir float sayı ise
-                        self.answers[i] = float(self.answers[i])
+                if AnswersList[i].replace(".", "", 1).isdigit():
+                    if "." in AnswersList[i]:  # Eğer öğe bir float sayı ise
+                        AnswersList[i] = float(AnswersList[i])
                     else:  # Eğer öğe bir tam sayı ise
-                        self.answers[i] = int(self.answers[i])
+                        AnswersList[i] = int(AnswersList[i])
                 else:
                     return False
 
@@ -212,15 +235,10 @@ class MyWindow(QMainWindow):
         for value in AnswersList:
             if value == "":
                 return False
-            
-        return True
-
         
+        # user input csv dosyasındaki değerlerin arasında mı kontrolu.
+        flag = self.check_values_in_range(AnswersList)
+        if not flag:
+            return False
 
-    
-
-
-
-
-
-
+        return True

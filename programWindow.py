@@ -20,16 +20,28 @@ class MyWindow(QMainWindow):
         self.componentGap = 250
         self.setGeometry(200,200,700,700)
         self.setWindowTitle("Diabet Application")
+        # .csv dosyası önce okunmalı user inputlarından önce.
         self.initUI()
 
         
 
     def UI2(self):
         MainWidget = QWidget()
-        MainLayout = QVBoxLayout()  
-        self.a = QLabel(self)
-        self.a.setText("-kaan-") 
-        MainLayout.addWidget(self.a)
+        MainLayout = QVBoxLayout()
+        
+        itemCounter = 1
+        for value in self.answers:
+            RowLayout  = QHBoxLayout()
+            self.valueLabel = QLabel(self)
+            self.valueCounterLabel = QLabel(self)
+            self.valueCounterLabel.setText(str(itemCounter)+". value = ")
+            self.valueLabel.setText(str(value))
+            itemCounter+=1
+            RowLayout.addWidget(self.valueCounterLabel, 1)
+            RowLayout.addWidget(self.valueLabel, 2)
+            MainLayout.addLayout(RowLayout)
+
+        MainLayout.addStretch(1)
         MainWidget.setLayout(MainLayout)
         self.setCentralWidget(MainWidget)   
 
@@ -81,7 +93,6 @@ class MyWindow(QMainWindow):
         RowLayout1.addWidget(self.definitionLabel4, 1)
         RowLayout1.addWidget(self.textField4, 2)
         MainLayout.addLayout(RowLayout1)
-
 
 
         # Insulin info retrieving..
@@ -158,8 +169,6 @@ class MyWindow(QMainWindow):
         # eğer değerler sayısal değilse tekrardan girsin değerleri.
 
         
-        
-
 
     def recieveData(self):
         dataPregnancies = self.textField1.text()
@@ -204,9 +213,6 @@ class MyWindow(QMainWindow):
             if value == "":
                 return False
             
-
-
-
         return True
 
         

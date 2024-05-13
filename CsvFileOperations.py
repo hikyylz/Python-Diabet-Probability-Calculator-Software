@@ -2,7 +2,8 @@
 import csv
 
 # csv file name
-filename = "diabetes.csv"
+csvFileName = "diabetes.csv"
+preprocedCsvFileName= "diabetes_preprocessed.csv"
 
 # initializing the titles and rows list
 fields = []
@@ -53,7 +54,6 @@ def dicValuesSort(row):
     dicValuesSortFor(row[7], "MaxAge", "MinAge")
 
 
-
 def dicValuesSortFor(value, maxName, minName):
     if AdgeValues[maxName] is None or value > AdgeValues[maxName]:
         AdgeValues[maxName] = value
@@ -61,10 +61,45 @@ def dicValuesSortFor(value, maxName, minName):
     if AdgeValues[minName] is None or value < AdgeValues[minName]:
         AdgeValues[minName] = value
 
+def preprocesRowData(data):
+    newData = []
+    adgeValuesList = list(AdgeValues.values())
+    valueCounter = 0
+
+    for value in data:
+        try:
+            max = adgeValuesList[valueCounter]
+            min = adgeValuesList[valueCounter+1]
+            valueCounter += 2
+            top = value - min
+            bottom = max - min
+            newValue = top / bottom
+        except IndexError:
+            # outcame değeri için var bu exception
+            newValue = value
+
+        except Exception as e:
+            print("preprosesing created problem")
+            return None
+
+        newData.append(newValue)
+    return newData
+
+
+def writeFile(data, toFilename):
+    with open(toFilename, 'a') as newcsvFile:
+        makeRowNumeric(data)
+        data = preprocesRowData(data)
+
+        if data == None:
+            return
+        
+        newcsvFile.write(','.join(map(str, data)) + '\n')
+        newcsvFile.close()
 
 
 # reading csv file
-with open(filename, 'r') as csvfile:
+with open(csvFileName, 'r') as csvfile:
     # creating a csv reader object
     csvreader = csv.reader(csvfile)
 
@@ -74,8 +109,23 @@ with open(filename, 'r') as csvfile:
     # extracting each data row one by one
     for row in csvreader:
         dicValuesSort(row)
+    
+    csvfile.close()
+    
+# reading csv file
+with open(csvFileName, 'r') as csvfile:
+    # creating a csv reader object
+    csvreader = csv.reader(csvfile)
 
-        
-        
+    # extracting field names through first row
+    fields = next(csvreader)
 
+    f = open(preprocedCsvFileName, "w")
+    f.write(','.join(map(str, fields)) + '\n')
+    f.close()
 
+    #preproced data set uploading
+    for row in csvreader:
+        writeFile(row, preprocedCsvFileName)
+
+    csvfile.close()

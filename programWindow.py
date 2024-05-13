@@ -18,6 +18,7 @@ class MyWindow(QMainWindow):
         super(MyWindow, self).__init__()
         self.answers = []
         self.answersStatus = False
+        self.warnUser = False
         self.lineGap = 50
         self.componentGap = 250
         self.setGeometry(200,200,700,700)
@@ -51,6 +52,15 @@ class MyWindow(QMainWindow):
     def initUI(self):
         MainWidget = QWidget()
         MainLayout = QVBoxLayout()
+        
+
+        if self.warnUser:
+            RowLayout1 = QHBoxLayout()
+            self.warnningLabel = QLabel(self)
+            self.warnningLabel.setText("- - - Type proper values ! - - - ")
+            RowLayout1.addWidget(self.warnningLabel, 1)
+            MainLayout.addLayout(RowLayout1)
+
 
         # pregnancie info retrieving..
         RowLayout1 = QHBoxLayout()
@@ -139,6 +149,8 @@ class MyWindow(QMainWindow):
         RowLayout1.addWidget(self.textField8, 2)
         MainLayout.addLayout(RowLayout1)
 
+        ## ekranı genişletiyor.
+        MainLayout.addStretch(1) 
 
         # recieve data button at buttom
         RowLayout1 = QHBoxLayout()
@@ -148,7 +160,6 @@ class MyWindow(QMainWindow):
 
         RowLayout1.addWidget(self.recieveDataButton, 1)
         MainLayout.addLayout(RowLayout1)
-
 
         MainWidget.setLayout(MainLayout)
         self.setCentralWidget(MainWidget)
@@ -160,9 +171,12 @@ class MyWindow(QMainWindow):
         self.answers = []
         self.recieveData()
         self.answersStatus = self.checkAnswers(self.answers)
+
         if self.answersStatus:
+            self.warnUser = False
             self.UI2()
         else:
+            self.warnUser = True
             self.initUI()
 
         # eğer value lar sayısalsa ekranda değişiklikler yapılacak
@@ -193,10 +207,8 @@ class MyWindow(QMainWindow):
     def dicValuesSortFor(self, value, maxName, minName):
         if value > AdgeValues[maxName]:
             return False
-        
         elif  value < AdgeValues[minName]:
             return False
-        
         return True
 
     def dicValuesSort(self, row):
@@ -212,7 +224,6 @@ class MyWindow(QMainWindow):
         for flag in answersSuitability:
             if not flag:
                 return False
-            
         return True
 
 

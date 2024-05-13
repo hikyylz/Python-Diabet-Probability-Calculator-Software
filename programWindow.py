@@ -196,23 +196,30 @@ class MyWindow(QMainWindow):
         
         elif  value < AdgeValues[minName]:
             return False
+        
+        return True
 
     def dicValuesSort(self, row):
-
-        dicValuesSortFor(row[0], "MaxPregnancies", "MinPregnancies")
-        dicValuesSortFor(row[1], "MaxGlucose", "MinGlucose")
-        dicValuesSortFor(row[2], "MaxBloodPressure", "MinBloodPressure")
-        dicValuesSortFor(row[3], "MaxSkinThickness", "MinSkinThickness")
-        dicValuesSortFor(row[4], "MaxInsulin", "MinInsulin")
-        dicValuesSortFor(row[5], "MaxBMI", "MinBMI")
-        dicValuesSortFor(row[6], "MaxDiabetesPedigreeFunction", "MinDiabetesPedigreeFunction")
-        dicValuesSortFor(row[7], "MaxAge", "MinAge")
+        answersSuitability = []
+        answersSuitability.append(self.dicValuesSortFor(row[0], "MaxPregnancies", "MinPregnancies"))  
+        answersSuitability.append(self.dicValuesSortFor(row[1], "MaxGlucose", "MinGlucose"))
+        answersSuitability.append(self.dicValuesSortFor(row[2], "MaxBloodPressure", "MinBloodPressure"))
+        answersSuitability.append(self.dicValuesSortFor(row[3], "MaxSkinThickness", "MinSkinThickness"))
+        answersSuitability.append(self.dicValuesSortFor(row[4], "MaxInsulin", "MinInsulin"))
+        answersSuitability.append(self.dicValuesSortFor(row[5], "MaxBMI", "MinBMI"))
+        answersSuitability.append(self.dicValuesSortFor(row[6], "MaxDiabetesPedigreeFunction", "MinDiabetesPedigreeFunction"))
+        answersSuitability.append(self.dicValuesSortFor(row[7], "MaxAge", "MinAge"))
+        for flag in answersSuitability:
+            if not flag:
+                return False
+            
+        return True
 
 
     def check_values_in_range(self, AnswerList):
-        dicValuesSort(AnswerList)
+        # answerlist aralıktaysa true döndür.
+        return self.dicValuesSort(AnswerList)
         
-        return True
 
     def checkAnswers(self, AnswersList):
         # answers değerlerini sayısal ifadeye dönüştürülüyor mu diye çalışıyoruz ilk olarak.
@@ -228,7 +235,6 @@ class MyWindow(QMainWindow):
                     return False
 
         except Exception as e:
-            print("girilen değerler sayisal değilmiş.")
             return False
 
         #blank textfield check
@@ -241,4 +247,5 @@ class MyWindow(QMainWindow):
         if not flag:
             return False
 
+        self.answers = AnswersList
         return True

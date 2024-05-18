@@ -9,7 +9,7 @@ preprocedCsvFileName= "diabetes_preprocessed.csv"
 fields = []
 rows = []
 
-# her field ın max ve min değerlerinin listesini tutacağım liste.
+# her field ın max ve min değerlerinin listesini tutacağım dict.
 AdgeValues = {
 	"MaxPregnancies":None,
     "MinPregnancies":None,

@@ -12,7 +12,7 @@ import math
 import sys
 # .py file import ettiğimde oradaki kodlar çalışıyormuş zaten!
 from CsvFileOperations import AdgeValues
-from sorting import LinkedList
+from LinkedListClass import LinkedList
 
 class MyWindow(QMainWindow):
     def __init__(self):
@@ -27,12 +27,12 @@ class MyWindow(QMainWindow):
         self.setGeometry(200,200,700,700)
         self.setWindowTitle("Diabet Application")
         self.initUI()
-
         
 
     def ResultsPage(self, diabetResultProbabilty):
         MainWidget = QWidget()
         MainLayout = QVBoxLayout()
+        MainLayout.spacing = 20
         
         itemCounter = 1
         for value in self.answers:
@@ -61,6 +61,7 @@ class MyWindow(QMainWindow):
     def initUI(self):
         MainWidget = QWidget()
         MainLayout = QVBoxLayout()
+        MainLayout.spacing = 50
 
         if self.warnUser:
             RowLayout1 = QHBoxLayout()
@@ -174,6 +175,7 @@ class MyWindow(QMainWindow):
 
 
     def makeAnsersPreproced(self):
+        self.preprosedAnswers = []
         adgeValuesList = list(AdgeValues.values())
         valueCounter = 0
 
@@ -192,6 +194,7 @@ class MyWindow(QMainWindow):
 
             self.preprosedAnswers.append(newValue)
 
+
     def euclidianDistance(self, list1, list2):
         # list correctiness check 
         if len(list1) != 8 or len(list2) != 8:
@@ -208,7 +211,6 @@ class MyWindow(QMainWindow):
 
         EcliadianDistance = math.sqrt(calculationSum)
         return EcliadianDistance
-        
 
 
     def appendResultToLinkedList(self, distance, diabetResult):
@@ -221,7 +223,6 @@ class MyWindow(QMainWindow):
         # bu iki listeyi d hesaplaması inin euclidianDistance methoduna vereceğim
         # reading csv file
         csvFileName = "diabetes_preprocessed.csv"
-        
         with open(csvFileName, 'r') as csvfile:
             # creating a csv reader object
             csvreader = csv.reader(csvfile)
@@ -239,19 +240,34 @@ class MyWindow(QMainWindow):
             csvfile.close()
 
 
+    def setDiabetResults(self, nbr):
+        # belirttiğim sayıda data seti içerisinden user ın diabet olma ihtimalini hesaplamak için resultları çekiyorum.
+        counter = 0
+        current_node = self.EclidianDistanceResultList.head
+        diabetResultList = []
+
+        while counter < nbr and current_node != None:
+            diabetResultList.append(current_node.result)
+            current_node = current_node.next
+            counter +=1
+        
+        return diabetResultList
+
+
     def evaluateUserDiabetResult(self):
         dataSetNbr = 5
         self.EclidianDistanceResultList.head = self.EclidianDistanceResultList.merge_sort(self.EclidianDistanceResultList.head)
         # llist deki ilk 5 elemanın diabet resultlarını % yeşklinde ekranda göstereceğim
-        diabetResultSpace = self.EclidianDistanceResultList.setDiabetResults(dataSetNbr)
+        diabetResultSpace = self.setDiabetResults(dataSetNbr)
+
+        #data setimde oransal olarak yüzde kaç diabet user hesaplaması.
         pozitifResultCounter = 0
         for result in diabetResultSpace:
             if result == "1":
                 pozitifResultCounter+=1
 
-        return pozitifResultCounter / 100
-
-
+        probability = float( 100*pozitifResultCounter / dataSetNbr )
+        return probability
         
 
 
@@ -266,12 +282,12 @@ class MyWindow(QMainWindow):
             self.makeAnsersPreproced()
             self.calculateDistances()
             diabetProbabilty = self.evaluateUserDiabetResult()
+            self.EclidianDistanceResultList.print_list()
             self.ResultsPage(diabetProbabilty)
         else:
             # hatalı input girilmiş.
             self.warnUser = True
             self.initUI()
-
 
         
 

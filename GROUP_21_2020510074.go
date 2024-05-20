@@ -10,38 +10,43 @@ import (
 	"strconv"
 )
 
-func euclideanDistance(list1, list2 []float64) float64 {
-	// Liste doğruluğunu kontrol et
+// İki liste arasındaki Öklid mesafesini hesaplayan fonksiyon.
+func euclideanDistance(list1, list2 []float64) {
+	// Liste uzunluklarını kontrol et
 	if len(list1) != 9 || len(list2) != 9 {
 		fmt.Println("liste uzunluklari yanliş")
-		return 0
+		return
 	}
 
-	// Diyabet sonuncu sonucunu kaldır
+	// Diyabet sonuncu sonucunu kaldır (ilk 8 elemanı al)
 	list1 = append(list1[:8])
 	list2 = append(list2[:8])
 
 	var calculationSum float64
+	// Her iki listedeki karşılık gelen elemanların farkının karesini alıp topluyoruz.
 	for i := 0; i < 8; i++ {
 		subtraction := list1[i] - list2[i]
 		power := math.Pow(subtraction, 2)
 		calculationSum += power
 	}
 
+	// Hesaplanan toplamın karekökünü alarak Öklid mesafesini hesaplıyoruz.
 	euclideanDistance := math.Sqrt(calculationSum)
 	fmt.Println("--")
 	fmt.Println("Seçilen noktalar arasindaki Öklid mesafesi")
 	fmt.Println(euclideanDistance)
 	fmt.Println("--")
-
-	return euclideanDistance
 }
 
+// Programın ana fonksiyonu
 func main() {
+	// CSV dosyasının adını belirtiyoruz.
 	csvFileName := "diabetes_preprocessed.csv"
-	dataRow1 := 1
-	dataRow2 := 2
+	// İlgili satır numaralarını belirtiyoruz.
+	dataRow1 := 3
+	dataRow2 := 77
 
+	// İki farklı liste oluşturuyoruz.
 	var dataRow1List, dataRow2List []float64
 
 	// CSV dosyasını aç
@@ -55,30 +60,25 @@ func main() {
 	// CSV dosyası için bir CSV okuyucu oluştur
 	csvReader := csv.NewReader(csvFile)
 
-	// CSV dosyasındaki sütun başlıklarını oku
-	_, err = csvReader.Read()
-	if err != nil {
-		fmt.Println("CSV başliklarini okurken hata oluştu:", err)
-		return
-	}
+	// CSV dosyasındaki fields isimlerini atla.
+	_, _ = csvReader.Read()
 
-	// İki örnek veriyi seç
+	// CSV dosyasını satır satır okuyup satır numarasını takip ediyoruz.
 	rowCounter := 1
 	for {
-		data, err := csvReader.Read()
-		if err != nil {
-			fmt.Println("CSV satirini okurken hata oluştu:", err)
-			break
-		}
+		data, _ := csvReader.Read()
 
+		// Eğer satır numarası dataRow1'e eşitse, bu satırı ilgili listeye ekliyoruz.
 		if rowCounter == dataRow1 {
 			dataRow1List = parseCSVRow(data)
 		}
 
+		// Eğer satır numarası dataRow2'ye eşitse, bu satırı ilgili listeye ekliyoruz.
 		if rowCounter == dataRow2 {
 			dataRow2List = parseCSVRow(data)
 		}
 
+		// Eğer her iki liste de dolmuşsa, döngüyü kırıyoruz.
 		if len(dataRow1List) != 0 && len(dataRow2List) != 0 {
 			break
 		}
@@ -90,15 +90,13 @@ func main() {
 	euclideanDistance(dataRow1List, dataRow2List)
 }
 
+// Bir CSV satırını float64 tipinde bir listeye dönüştüren fonksiyon.
 func parseCSVRow(row []string) []float64 {
-	var parsedRow []float64
-	for _, val := range row {
-		floatVal, err := strconv.ParseFloat(val, 64)
-		if err != nil {
-			fmt.Println("CSV satirini dönüştürürken hata oluştu:", err)
-			return nil
-		}
-		parsedRow = append(parsedRow, floatVal)
+	parsedRow := make([]float64, len(row))
+	for i, val := range row {
+		// Her elemanı float64 tipine dönüştürüp listeye ekliyoruz.
+		floatVal, _ := strconv.ParseFloat(val, 64) // go dilinde string değişkeni sayısal ifadeye casting etmeye yarayan kütüphane.
+		parsedRow[i] = floatVal
 	}
 	return parsedRow
 }

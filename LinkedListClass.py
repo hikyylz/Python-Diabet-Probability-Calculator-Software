@@ -5,24 +5,23 @@ class Node:
         self.next = None
 
 
-
-
-# diabet probabilty di yanlış gibi !!!
-
-
-
-
-
-
 class LinkedList:
     def __init__(self):
         self.head = None
+
+    def print_list(self):
+        current_node = self.head
+        while current_node:
+            print(f"d: {current_node.distance}, result: {current_node.result}", end="  ->  ")
+            current_node = current_node.next
+        print("None")
 
     def append(self, distance, result):
         new_node = Node(distance, result)
         if self.head is None:
             self.head = new_node
             return
+        
         last_node = self.head
         while last_node.next:
             last_node = last_node.next
@@ -67,17 +66,3 @@ class LinkedList:
             result = right
             result.next = self.merge(left, right.next)
         return result
-
-    def setDiabetResults(self, nbr):
-        # belirttiğim sayıda data seti içerisinden user ın diabet olma ihtimalini hesaplamak için resultları çekiyorum.
-        counter = 0
-        current_node = self.head
-        diabetResultList = []
-
-        while counter < nbr and current_node != None:
-            diabetResultList.append(current_node.result)
-            current_node = current_node.next
-        
-        return diabetResultList
-
-

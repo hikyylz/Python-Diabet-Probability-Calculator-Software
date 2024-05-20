@@ -29,8 +29,9 @@ def euclidean_distanceM(list1, list2)
 end
 
 csv_file_name = "diabetes_preprocessed.csv"
-data_row1 = 1
-data_row2 = 2
+data_row1 = 3
+data_row2 = 77
+
 
 data_row1_list = []
 data_row2_list = []

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 import sys
-from programWindow import MyWindow
+from GROUP_21_2020510074 import MyWindow
 
 
 class DiabetProgram():

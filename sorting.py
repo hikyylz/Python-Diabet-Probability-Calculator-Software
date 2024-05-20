@@ -5,15 +5,6 @@ class Node:
         self.next = None
 
 
-
-
-# diabet probabilty di yanlış gibi !!!
-
-
-
-
-
-
 class LinkedList:
     def __init__(self):
         self.head = None

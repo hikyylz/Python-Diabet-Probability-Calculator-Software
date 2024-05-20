@@ -98,17 +98,18 @@ class MyWindow(QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
         self.EclidianDistanceResultList = LinkedList()
+        self.dataSetSpaceSize = "5"
         self.answers = []
         self.preprosedAnswers = []
         self.answersStatus = False
         self.warnUser = False
         self.lineGap = 50
         self.componentGap = 250
-        self.setGeometry(200,200,700,700)
+        self.setGeometry(200,200,700,500)
         self.setWindowTitle("Diabet Application")
+
         self.initUI()
 
-        
 
     def ResultsPage(self, diabetResultProbabilty):
         MainWidget = QWidget()
@@ -237,6 +238,16 @@ class MyWindow(QMainWindow):
         RowLayout1.addWidget(self.textField8, 2)
         MainLayout.addLayout(RowLayout1)
 
+        # dataSetSpace info retrieving..
+        RowLayout1 = QHBoxLayout()
+        self.definitionLabel9 = QtWidgets.QLabel(self)
+        self.definitionLabel9.setText ("-            Data set space size :")
+        self.textField9=QtWidgets.QLineEdit(self)
+
+        RowLayout1.addWidget(self.definitionLabel9, 1)
+        RowLayout1.addWidget(self.textField9, 2)
+        MainLayout.addLayout(RowLayout1)
+
         ## ekranı genişletiyor.
         MainLayout.addStretch(1) 
 
@@ -321,7 +332,11 @@ class MyWindow(QMainWindow):
 
 
     def evaluateUserDiabetResult(self):
-        dataSetNbr = 5
+        if self.dataSetSpaceSize == "":
+            dataSetNbr = 5
+        else:
+            dataSetNbr = int(self.dataSetSpaceSize)
+
         self.EclidianDistanceResultList.head = self.EclidianDistanceResultList.merge_sort(self.EclidianDistanceResultList.head)
         # llist deki ilk 5 elemanın diabet resultlarını % yeşklinde ekranda göstereceğim
         diabetResultSpace = self.EclidianDistanceResultList.setDiabetResults(dataSetNbr)
@@ -365,6 +380,7 @@ class MyWindow(QMainWindow):
         dataBMI = self.textField6.text()
         dataDiabetesPedigreeFunction = self.textField7.text()
         dataAge = self.textField8.text()
+        self.dataSetSpaceSize = self.textField9.text()
         
         self.answers.append(dataPregnancies)
         self.answers.append(dataGlucose)

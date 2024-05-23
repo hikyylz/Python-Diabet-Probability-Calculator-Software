@@ -41,10 +41,10 @@ func euclideanDistance(list1, list2 []float64) {
 // Programın ana fonksiyonu
 func main() {
 	// CSV dosyasının adını belirtiyoruz.
-	csvFileName := "diabetes_preprocessed.csv"
+	csvFileName := "diabetes.csv"
 	// İlgili satır numaralarını belirtiyoruz.
-	dataRow1 := 3
-	dataRow2 := 77
+	dataRow1 := 1
+	dataRow2 := 2
 
 	// İki farklı liste oluşturuyoruz.
 	var dataRow1List, dataRow2List []float64

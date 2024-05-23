@@ -4,8 +4,8 @@ import math
 
 
 csvFileName = "diabetes_preprocessed.csv"
-dataRow1 = 1
-dataRow2 = 8
+dataRow1 = 3
+dataRow2 = 77
 
 dataRow1_List = []
 dataRow2_List = [] 

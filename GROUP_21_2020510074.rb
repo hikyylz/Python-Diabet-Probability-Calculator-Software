@@ -33,11 +33,10 @@ def euclidean_distanceM(list1, list2)
 end
 
 # CSV dosyasının adını belirtiyoruz.
-csv_file_name = "diabetes_preprocessed.csv"
+csv_file_name = "diabetes.csv"
 # İlgili satır numaralarını belirtiyoruz.
-data_row1 = 3
-data_row2 = 77
-
+data_row1 = 1
+data_row2 = 2
 # İki farklı liste oluşturuyoruz.
 data_row1_list = []
 data_row2_list = []

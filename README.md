@@ -1,2 +1,3 @@
 # Python-Diabet-Probability-Calculator-Software
-I developed a PyQt5 Python desktop application via python.
+I developed a PyQt5 desktop application via python.
+Software calculates diabet probabilty.
